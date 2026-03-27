@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Малориса</title>
 
 <style>
@@ -10,19 +10,40 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #ffeef5, #f5f5f5);
-  color: #222;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100vh;
-  overflow: hidden;
 }
 
-/* Контейнер */
 .container {
   text-align: center;
+  width: 100%;
+  max-width: 350px;
   padding: 20px;
-  animation: fadeIn 1.2s ease;
+}
+
+/* Переключатель городов */
+.city-switch {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.city-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.city-btn.active {
+  background: #ff8fb1;
+  color: white;
 }
 
 /* Логотип */
@@ -35,79 +56,40 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 38px;
   color: white;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-  animation: float 3s ease-in-out infinite;
+  font-size: 32px;
 }
 
-/* Заголовок */
+/* Текст */
 h1 {
-  font-size: 28px;
-  margin-bottom: 8px;
+  margin: 5px 0;
 }
 
-/* Подзаголовок */
 p {
-  font-size: 14px;
-  margin-bottom: 25px;
   color: #666;
+  margin-bottom: 20px;
 }
 
 /* Кнопки */
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
-/* Кнопка */
 .btn {
   padding: 14px;
-  border: none;
   border-radius: 12px;
-  background: white;
-  cursor: pointer;
   text-decoration: none;
-  color: #000;
-  font-size: 16px;
+  background: white;
+  color: black;
   font-weight: bold;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   transition: 0.2s;
 }
 
-/* Hover */
 .btn:hover {
   transform: scale(1.05);
-}
-
-/* Анимации */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0px); }
-}
-
-/* Адаптация под большие экраны */
-@media (min-width: 600px) {
-  .buttons {
-    flex-direction: row;
-  }
-
-  .btn {
-    width: 120px;
-  }
 }
 </style>
 </head>
@@ -116,21 +98,63 @@ p {
 
 <div class="container">
 
-  <!-- ЛОГО -->
-  <div class="logo">
-    <img src="https://ams2-cdn.2gis.com/previews/1229970525942448131/1d1c8e68-ded3-44ca-b30f-cc7ac8d82cfb/1/ru/image_72x72.png" alt="Логотип">
+  <!-- ГОРОДА -->
+  <div class="city-switch">
+    <button class="city-btn active" onclick="setCity('raduzhny')">Радужный</button>
+    <button class="city-btn" onclick="setCity('tyumen')">Тюмень</button>
   </div>
 
-  <h1>Малориса</h1>
-  <p>Ресторан доставки</p>
+  <!-- ЛОГО -->
+  <div class="logo">
+  <img src="https://ССЫЛКА_НА_ТВОЙ_ЛОГО.png" alt="Логотип">
+</div>
 
+  <h1>Малориса</h1>
+  <p id="cityText">Радужный</p>
+
+  <!-- КНОПКИ -->
   <div class="buttons">
-    <a href="https://t.me/malorisa72_bot" class="btn">Telegram</a>
-    <a href="#" class="btn">Max</a>
-    <a href="#" class="btn">VK</a>
+    <a id="tg" href="#" class="btn" target="_blank">Telegram</a>
+    <a id="vk" href="#" class="btn" target="_blank">VK</a>
+    <a id="site" href="#" class="btn" target="_blank">Сайт</a>
   </div>
 
 </div>
+
+<script>
+let currentCity = 'raduzhny';
+
+const links = {
+  raduzhny: {
+    name: "Радужный",
+    tg: "https://t.me/ТВОЙ_РАДУЖНЫЙ",
+    vk: "https://vk.com/РАДУЖНЫЙ",
+    site: "https://site-raduzhny.ru"
+  },
+  tyumen: {
+    name: "Тюмень",
+    tg: "https://t.me/ТВОЙ_ТЮМЕНЬ",
+    vk: "https://vk.com/ТЮМЕНЬ",
+    site: "https://site-tyumen.ru"
+  }
+};
+
+function setCity(city) {
+  currentCity = city;
+
+  document.getElementById("cityText").innerText = links[city].name;
+
+  document.getElementById("tg").href = links[city].tg;
+  document.getElementById("vk").href = links[city].vk;
+  document.getElementById("site").href = links[city].site;
+
+  document.querySelectorAll(".city-btn").forEach(btn => btn.classList.remove("active"));
+  event.target.classList.add("active");
+}
+
+// Инициализация
+setCity('raduzhny');
+</script>
 
 </body>
 </html>
